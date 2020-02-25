@@ -18,33 +18,58 @@
 //
 // Create a card for each of the articles and add the card to the DOM.
 
+function createCard(article) {
+  const card = document.createElement("div");
+  card.classList.add("card");
 
+  const headline = document.createElement("div");
+  headline.classList.add("headline");
+  headline.textContent = article.headline;
 
-function cards (parameter) {
-    const card = document.createElement('div');
-    card.classList.add('card');
+  const author = document.createElement("div");
+  author.classList.add("author");
 
-    const headLine = document.createElement('div');
-    headLine.classList.add('headline');
+  const imgContainer = document.createElement("div");
+  imgContainer.classList.add("img-container");
 
-    const author = document.createElement('div');
-    author.classList.add('author');
+  const img = document.createElement("img");
+  img.src = article.authorPhoto;
 
-    const imgContainer = document.createElement('div');
-    imgContainer.classList.add('img-container');
+  const authorName = document.createElement("span");
+  authorName.textContent = `By ${article.authorName}`;
 
-    const img = document.createElement('img');
-    img.src = parameter.img_url;
+  card.appendChild(headline);
+  card.appendChild(author);
+  author.appendChild(imgContainer);
+  imgContainer.appendChild(img);
+  author.appendChild(authorName);
 
-    const authorName = document.createElement('span');
-    authorName.textContent = `By ${parameter.author}`
+  return card;
+}
 
+/**
+ * data: {
+ *   articles: {
+ *      javascript: [{...}],
+ *      kotlin: []
+ *   }
+ * }
+ */
 
-    card.appendChild(headline);
-    card.appendChild(author);
-    author.appendChild(imgContainer);
-    imgContainer.appendChild(img);
-    author.appendChild(authorName);
+axios
+  .get("https://lambda-times-backend.herokuapp.com/articles")
+  .then(response => {
+    console.log(response);
+    const cardsContainer = document.querySelector(".cards-container");
 
-    return card;
-};
+    for (const topicKey in response.data.articles) {
+      const articles = response.data.articles[topicKey];
+      for (const article of articles) {
+        const card = createCard(article);
+        cardsContainer.appendChild(card);
+      }
+    }
+  })
+  .catch(error => {
+    console.log("Data was not returned", error);
+  });

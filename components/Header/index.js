@@ -26,13 +26,12 @@ function Header() {
     temp.classList.add('temp');
     temp.textContent = '98°'
 
-    headerContent.appendChild(header);
     header.appendChild(date);
     header.appendChild(title);
     header.appendChild(temp);
 
-    return headerContent;
+    return header;
 };
 
 const headerContent = document.querySelector('.header-container');
-//headerContent.appendChild(Header())
+headerContent.appendChild(Header())
