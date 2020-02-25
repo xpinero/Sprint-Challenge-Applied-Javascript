@@ -17,3 +17,71 @@
     <div class="right-button"> > </div>
   </div>
 */
+
+let index = 0;
+
+function nextImage(event) {
+  const nextIndex = index + 1;
+  const images = document.querySelectorAll(".carousel img");
+  if (nextIndex > images.length - 1) {
+    return;
+  }
+  const currentImage = images[index];
+  const nextImage = images[nextIndex];
+  currentImage.style.display = "none";
+  nextImage.style.display = "block";
+  index = nextIndex;
+}
+
+function prevImage(event) {
+  if (index === 0) {
+    return;
+  }
+  const prevIndex = index - 1;
+  const images = document.querySelectorAll(".carousel img");
+  const currentImage = images[index];
+  const prevImage = images[prevIndex];
+  currentImage.style.display = "none";
+  prevImage.style.display = "block";
+  index = prevIndex;
+}
+
+function createCarousel() {
+  const carousel = document.createElement("div");
+  carousel.classList.add("carousel");
+
+  const leftBtn = document.createElement("div");
+  leftBtn.classList.add("left-button");
+  leftBtn.textContent = "<";
+  leftBtn.addEventListener("click", prevImage);
+
+  const imgOne = document.createElement("img");
+  imgOne.src = "./assets/carousel/mountains.jpeg";
+  imgOne.style.display = "block";
+
+  const imgTwo = document.createElement("img");
+  imgTwo.src = "./assets/carousel/computer.jpeg";
+
+  const imgThree = document.createElement("img");
+  imgThree.src = "./assets/carousel/trees.jpeg";
+
+  const imgFour = document.createElement("img");
+  imgFour.src = "./assets/carousel/turntable.jpeg";
+
+  const rightBtn = document.createElement("div");
+  rightBtn.classList.add("right-button");
+  rightBtn.textContent = ">";
+  rightBtn.addEventListener("click", nextImage);
+
+  carousel.appendChild(leftBtn);
+  carousel.appendChild(imgOne);
+  carousel.appendChild(imgTwo);
+  carousel.appendChild(imgThree);
+  carousel.appendChild(imgFour);
+  carousel.appendChild(rightBtn);
+
+  const carouselContainer = document.querySelector(".carousel-container");
+  carouselContainer.appendChild(carousel);
+}
+
+createCarousel();
